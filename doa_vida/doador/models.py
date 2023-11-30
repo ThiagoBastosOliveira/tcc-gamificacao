@@ -36,7 +36,7 @@ class Badge(models.Model):
 
 class Doador(models.Model):
     id_hemovida = models.CharField("Identificador no sistema Hemovida", max_length=9)
-    cpf = models.CharField("CPF", max_length=11)
+    cpf = models.CharField("CPF", max_length=14)
     cns = models.CharField("Número do Cartão Nacional de Saúde", max_length=30, null=True, blank=True)
     num_ident = models.CharField("Número da Identidade", max_length=11)
     nome = models.CharField(max_length=100)
@@ -46,7 +46,7 @@ class Doador(models.Model):
     nome_mae = models.CharField("Nome da Mãe", max_length=100)
     grupo_abo = models.CharField("Grupo ABO", max_length=2, choices=[('A', 'A'), ('B', 'B'), ('O', 'O'), ('AB', 'AB')])
     fator_rh = models.CharField("Fator RH", max_length=1, choices=[('+', '+'), ('-', '-')])
-    telefone = models.CharField(max_length=11)
+    telefone = models.CharField(max_length=15)
     badges = models.ManyToManyField(Badge)
 
     def __str__(self):
@@ -93,8 +93,7 @@ class Doador(models.Model):
             doacoes = self.doacao_set.all().order_by('data_doacao')
             pontuacao_acumulada = 0
             for doacao in doacoes:
-                pontuacao_acumulada += round(
-                    abs(np.log10((datetime.date.today() - doacao.data_doacao).days / 365)) * 100)
+                pontuacao_acumulada += round(abs(np.log10((datetime.date.today() - doacao.data_doacao).days / 365)) * 100)
                 historico['datas'].append(doacao.data_doacao.strftime('%Y-%m-%d'))  # TODO Implementar cálculo de pontos
                 historico['pontos'].append(pontuacao_acumulada)
         except Doacao.DoesNotExist:
@@ -132,21 +131,33 @@ class Estoque(models.Model):
 
 class Hemocentro(models.Model):
     cnes_hemocentro = models.CharField("Cadastro Nacional de Estabelecimento de Saúde", max_length=9)
-    nome = models.CharField(choices=[('HEMOGO - Goiânia', 'HEMOGO - Goiânia'), ('HEMOGO Ceres', 'HEMOGO Ceres'),
-                                     ('HEMOGO - Catalão', 'HEMOGO - Catalão'),
-                                     ('HEMOGO - Rio Verde', 'HEMOGO - Rio Verde'),
-                                     ('HEMOGO - Jataí', 'HEMOGO - Jataí'), ('UCT - Formosa', 'UCT - Formosa'),
-                                     ('UCT - Iporá', 'UCT - Iporá'), ('UCT - Porangatu', 'UCT - Porangatu'),
-                                     ('UCT - Quirinópolis', 'UCT-Quirinópolis')], max_length=100),
-    cod_ibge = models.CharField(max_length=7),
-    municipio = models.CharField(choices=[('Goiânia', 'Goiânia'), ('Ceres', 'Ceres'), ('Catalão', 'Catalão'),
+    unidade = models.CharField("Unidade", choices=[('HEMOGO - Goiânia', 'HEMOGO - Goiânia'),
+                                        ('HEMOGO - Ceres', 'HEMOGO - Ceres'),
+                                        ('HEMOGO - Catalão', 'HEMOGO - Catalão'),
+                                        ('HEMOGO - Rio Verde', 'HEMOGO - Rio Verde'),
+                                        ('HEMOGO - Jataí', 'HEMOGO - Jataí'), ('UCT - Formosa', 'UCT - Formosa'),
+                                        ('UCT - Iporá', 'UCT - Iporá'), ('UCT - Porangatu', 'UCT - Porangatu'),
+                                        ('UCT - Quirinópolis', 'UCT - Quirinópolis')], max_length=100, default="indef")
+    cod_ibge = models.CharField("Código IBGE", max_length=6, default="000000")
+    municipio = models.CharField("Município", choices=[('Goiânia', 'Goiânia'), ('Ceres', 'Ceres'), ('Catalão', 'Catalão'),
                                           ('Rio Verde', 'Rio Verde'), ('Jataí', 'Jataí'), ('Formosa', 'Formosa'),
                                           ('Iporá', 'Iporá'), ('Porangatu', 'Porangatu'),
-                                          ('Quirinópolis', 'Quirinópolis')],
-                                 max_length=20)
+                                          ('Quirinópolis', 'Quirinópolis')], max_length=20)
 
     def __str__(self):
-        return self.nome
+        return self.cnes_hemocentro + ' | ' + self.unidade + ' - ' + self.cod_ibge + ' | ' + self.municipio
+
+    def obter_unidades(self):
+        try:
+            historico = {'unidades': []}
+            unidades = self.unidade_set.all().order_by('cnes_hemocentro')
+
+            for unidade in unidades:
+                historico['unidades'].append(unidade.unidade)
+        except Hemocentro.DoesNotExist:
+            historico = {}
+
+        return historico
 
 
 @receiver(post_save, sender=Doacao)

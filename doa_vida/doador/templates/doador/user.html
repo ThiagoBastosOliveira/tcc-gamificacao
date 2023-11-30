@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{% static 'doador/plugins/daterangepicker/daterangepicker.css' %}">
     <!-- summernote -->
     <link rel="stylesheet" href="{% static 'doador/plugins/summernote/summernote-bs4.min.css' %}">
+    <!-- mycss.css -->
+    <link rel="stylesheet" href="{% static 'doador/css/mycss.css' %}">
 </head>
 <body class="sidebar-mini layout-fixed sidebar-collapse">
 <div id="fb-root"></div>
@@ -95,16 +97,34 @@
                                 Home
                             </p>
                         </a>
-                        <a href="{% url 'dashboard' %}" class="nav-link">
+                    </li>
+                </ul>
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                         <a href="{% url 'dashboard' %}" class="nav-link">
                             <i class="nav-icon fas fa-chart-bar mr-1"></i>
                             <p>
                                 Indicadores
                             </p>
                         </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
                         <a href="{% url 'user' %}" class="nav-link active">
                             <i class="nav-icon fas fa-user mr-1"></i>
                             <p>
                                 Usuário
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+                <ul id="logout_button" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link">
+                            <i class="nav-icon fas fa-door-open mr-1"></i>
+                            <p>
+                                Logout
                             </p>
                         </a>
                     </li>
@@ -122,7 +142,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Doa Vida</h1>
+                        <h1 class="m-0"><img src="../../static/doador/img/doa_vida_icon.png" width="40" height="40"> Doa Vida</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -133,57 +153,58 @@
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
-        <!-- /.content-header -->
-
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Custom tabs (Charts with tabs)-->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="fas fa-user mr-1"></i>
-                                Meu Perfil
-                            </h3>
-                            <div class="card-tools">
-                                <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartilhar</a></div>
-                            </div>
-                        </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content p-0">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <p><strong>Nome:</strong> {{ doador.nome }}</p>
-                                        <p><strong>CPF:</strong> {{ doador.cpf }}</p>
-                                        <p><strong>Última Doação:</strong> {{ doador.obter_ultima_doacao.data_doacao }}</p>
-                                        <p><strong>Próxima Doação:</strong> {{ doador.obter_proxima_doacao }}</p>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="row">
-                                            {% for badge in badges %}
-                                                {% if badge.tem %}
-                                                    <div class="col-6">
-                                                        <img src="{% static 'doador/img/'|add:badge.badge.imagem|add:'.png' %}" alt="Product 1" style="width:150px"  class="mr-2">
-                                                    </div>
-                                                {% else %}
-                                                    <div class="col-6">
-                                                        <img src="{% static 'doador/img/'|add:badge.badge.imagem|add:'_inativo.png' %}" alt="Product 1" style="width:150px"  class="mr-2">
-                                                    </div>
-                                                {% endif %}
-                                            {% endfor %}
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <!-- Custom tabs (Charts with tabs)-->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-user mr-1"></i>
+                                    Meu Perfil
+                                </h3>
+                                <div class="card-tools">
+                                    <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartilhar</a></div>
+                                </div>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="tab-content p-0">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <p><strong>Código de Doador:</strong> {{ doador.cns }}</p>
+                                            <p><strong>Nome:</strong> {{ doador.nome }}</p>
+                                            <p><strong>CPF:</strong> {{ doador.cpf }}</p>
+                                            <p><strong>Última Doação:</strong> {{ doador.obter_ultima_doacao.data_doacao }}</p>
+                                            <p><strong>Próxima Doação:</strong> {{ doador.obter_proxima_doacao }}</p>
+                                            <p><strong></strong></p>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="row">
+                                                {% for badge in badges %}
+                                                    {% if badge.tem %}
+                                                        <div class="col-6">
+                                                            <img src="{% static 'doador/img/'|add:badge.badge.imagem|add:'.png' %}" alt="Product 1" style="width:150px"  class="mr-2">
+                                                        </div>
+                                                    {% else %}
+                                                        <div class="col-6">
+                                                            <img src="{% static 'doador/img/'|add:badge.badge.imagem|add:'_inativo.png' %}" alt="Product 1" style="width:150px"  class="mr-2">
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
-
                                 </div>
-                            </div>
-                        </div><!-- /.card-body -->
+                            </div><!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
                     </div>
-                    <!-- /.card -->
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
+</div>
 
 <!-- jQuery -->
 <script src="{% static 'doador/plugins/jquery/jquery.min.js' %}"></script>

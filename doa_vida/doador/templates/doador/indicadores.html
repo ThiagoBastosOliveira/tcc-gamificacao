@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{% static 'doador/plugins/daterangepicker/daterangepicker.css' %}">
     <!-- summernote -->
     <link rel="stylesheet" href="{% static 'doador/plugins/summernote/summernote-bs4.min.css' %}">
+    <!-- mycss.css -->
+    <link rel="stylesheet" href="{% static 'doador/css/mycss.css' %}">
 </head>
 <body class="sidebar-mini layout-fixed sidebar-collapse">
 <div id="fb-root"></div>
@@ -95,16 +97,34 @@
                                 Home
                             </p>
                         </a>
-                        <a href="{% url 'dashboard' %}" class="nav-link active">
+                    </li>
+                </ul>
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                         <a href="{% url 'dashboard' %}" class="nav-link active">
                             <i class="nav-icon fas fa-chart-bar mr-1"></i>
                             <p>
                                 Indicadores
                             </p>
                         </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
                         <a href="{% url 'user' %}" class="nav-link">
                             <i class="nav-icon fas fa-user mr-1"></i>
                             <p>
                                 Usuário
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+                <ul id="logout_button" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <li class="nav-item">
+                        <a href="{% url 'logout' %}" class="nav-link">
+                            <i class="nav-icon fas fa-door-open mr-1"></i>
+                            <p>
+                                Logout
                             </p>
                         </a>
                     </li>
@@ -121,7 +141,10 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-12">
+                    <div class="col-sm-6">
+                        <h1 class="m-0"><img src="../../static/doador/img/doa_vida_icon.png" width="40" height="40"> Doa Vida</h1>
+                    </div>
+                    <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
                             <li class="breadcrumb-item active">Indicadores</li>
@@ -132,56 +155,84 @@
         </div>
         <!-- /.content-header -->
 
-<!--    <section class="content">-->
-<!--        <div class="container-fluid">-->
-<!--            <div class="row">-->
-<!--                <div class="col-12">-->
-<!--                    &lt;!&ndash; Custom tabs (Charts with tabs)&ndash;&gt;-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-header">-->
-<!--                            <h3 class="card-title">-->
-<!--                                <i class="fas fa-user mr-1"></i>-->
-<!--                                Meu Perfil-->
-<!--                            </h3>-->
-<!--                            <div class="card-tools">-->
-<!--                                <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Compartilhar</a></div>-->
-<!--                            </div>-->
-<!--                        </div>&lt;!&ndash; /.card-header &ndash;&gt;-->
-<!--                        <div class="card-body">-->
-<!--                            <div class="tab-content p-0">-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-6">-->
-<!--                                        <p><strong>Nome:</strong> {{ usuarios.nome }}</p>-->
-<!--                                        <p><strong>CPF:</strong> {{ usuarios.cpf }}</p>-->
-<!--                                        <p><strong>Última Doação:</strong> {{ doador.obter_ultima_doacao.data_doacao }}</p>-->
-<!--                                        <p><strong>Próxima Doação:</strong> {{ doador.obter_proxima_doacao }}</p>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-6">-->
-<!--                                        <div class="row">-->
-<!--                                            {% for badge in badges %}-->
-<!--                                                {% if badge.tem %}-->
-<!--                                                    <div class="col-6">-->
-<!--                                                        <img src="{% static 'doador/img/'|add:badge.badge.imagem|add:'.png' %}" alt="Product 1" style="width:150px"  class="mr-2">-->
-<!--                                                    </div>-->
-<!--                                                {% else %}-->
-<!--                                                    <div class="col-6">-->
-<!--                                                        <img src="{% static 'doador/img/'|add:badge.badge.imagem|add:'_inativo.png' %}" alt="Product 1" style="width:150px"  class="mr-2">-->
-<!--                                                    </div>-->
-<!--                                                {% endif %}-->
-<!--                                            {% endfor %}-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>&lt;!&ndash; /.card-body &ndash;&gt;-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash; /.card &ndash;&gt;-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
-
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-pie mr-1"></i>
+                                    Indicadores
+                                </h3>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="card">
+                                            <div class="card-header border-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <h3 class="card-title">Doações Realizadas por Mês</h3>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="position-relative mb-4">
+                                                    <canvas id="doacoes-mes" height="205"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card">
+                                            <div class="card-header border-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <h3 class="card-title">Média de Doações por Sexo</h3>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="position-relative mb-4">
+                                                    <canvas id="media-sexo" height="91"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card">
+                                            <div class="card-header border-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <h3 class="card-title">Doações por Unidade</h3>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="position-relative mb-4">
+                                                    <canvas id="doacoes-unidade" height="200"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="card">
+                                            <div class="card-header border-0">
+                                                <div class="d-flex justify-content-between">
+                                                    <h3 class="card-title">Transfusões por Tipo/Fenótipo Sanguíneo</h3>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="position-relative mb-4">
+                                                    <canvas id="transf-tipo" height="200"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 <!-- jQuery -->
 <script src="{% static 'doador/plugins/jquery/jquery.min.js' %}"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -296,16 +347,220 @@
             }
         })
 
-        var $visitorsChart = $('#visitors-chart')
+        var $doacoesMes = $('#doacoes-mes')
         // eslint-disable-next-line no-unused-vars
-        var visitorsChart = new Chart($visitorsChart, {
+        var doacoesMes = new Chart($doacoesMes, {
+            type: 'bar',
             data: {
-                labels: {{ doador.obter_historico_pontos.datas|safe }},
+                labels: [
+                    'jan/2023',
+                    'fev/2023',
+                    'mar/2023',
+                    'abr/2023',
+                    'mai/2023',
+                    'jun/2023',
+                    'jul/2023',
+                    'ago/2023',
+                    'set/2023',
+                    'out/2023',
+                    'nov/2023',
+                    'dez/2023'
+                ],
                 datasets: [
                     {
                         type: 'bar',
-                        data: {{ doador.obter_historico_pontos.pontos|safe }},
-                        backgroundColor: ' #007bff',
+                        data: [
+                            128,
+                            100,
+                            98,
+                            102,
+                            88,
+                            94,
+                            96,
+                            136,
+                            87,
+                            100,
+                            79,
+                            0
+                        ],
+                        backgroundColor: '#FB1338',
+                        color: '#007bff',
+                        fill: false
+                        //pointHoverBackgroundColor: '#ced4da',
+                        //pointHoverBorderColor    : '#ced4da'
+                    }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                hover: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: true,
+                            //lineWidth: '4px',
+                            color: 'rgba(0, 0, 0, .2)',
+                            zeroLineColor: 'transparent'
+                        },
+                        ticks: $.extend({
+                            beginAtZero: true,
+                            suggestedMax: 150
+                        }, ticksStyle)
+                    }],
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: ticksStyle
+                    }]
+                }
+            }
+        })
+
+        var $mediaSexo = $('#media-sexo')
+        // eslint-disable-next-line no-unused-vars
+        var mediaSexo = new Chart($mediaSexo, {
+            type: 'pie',
+            data: {
+                labels: [
+                    'Masculino',
+                    'Feminino'
+                ],
+                datasets: [
+                    {
+                        type: 'pie',
+                        data: [
+                            47,
+                            53
+                        ],
+                        backgroundColor: [
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 99, 132)'
+                        ],
+                        color: '#007bff',
+                        fill: false
+                        //pointHoverBackgroundColor: '#ced4da',
+                        //pointHoverBorderColor    : '#ced4da'
+                    }
+                ]
+            }
+        })
+
+        var $doacoesUnidade = $('#doacoes-unidade')
+        // eslint-disable-next-line no-unused-vars
+        var doacoesUnidade = new Chart($doacoesUnidade, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'HEMOGO - Catalão',
+                    'HEMOGO - Ceres',
+                    'HEMOGO - Goiânia',
+                    'HEMOGO - Jataí',
+                    'HEMOGO - Rio Verde',
+                    'UCT - Formosa',
+                    'UCT - Iporá',
+                    'UCT - Porangatu',
+                    'UCT - Quirinópolis'
+                ],
+                datasets: [
+                    {
+                        type: 'bar',
+                        data: [
+                            128,
+                            100,
+                            98,
+                            102,
+                            88,
+                            94,
+                            96,
+                            136,
+                            87
+                        ],
+                        backgroundColor: '#FB1338',
+                        color: '#007bff',
+                        fill: false
+                        //pointHoverBackgroundColor: '#ced4da',
+                        //pointHoverBorderColor    : '#ced4da'
+                    }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                hover: {
+                    mode: mode,
+                    intersect: intersect
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: true,
+                            //lineWidth: '4px',
+                            color: 'rgba(0, 0, 0, .2)',
+                            zeroLineColor: 'transparent'
+                        },
+                        ticks: $.extend({
+                            beginAtZero: true,
+                            suggestedMax: 150
+                        }, ticksStyle)
+                    }],
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: ticksStyle
+                    }]
+                }
+            }
+        })
+
+        var $transfTipo = $('#transf-tipo')
+        // eslint-disable-next-line no-unused-vars
+        var transfTipo = new Chart($transfTipo, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'A+',
+                    'A-',
+                    'B+',
+                    'B-',
+                    'AB+',
+                    'AB-',
+                    'O+',
+                    'O-'
+                ],
+                datasets: [
+                    {
+                        type: 'bar',
+                        data: [
+                            32,
+                            45,
+                            24,
+                            39,
+                            22,
+                            19,
+                            38,
+                            49
+                        ],
+                        backgroundColor: '#FB1338',
                         color: '#007bff',
                         fill: false
                         // pointHoverBackgroundColor: '#ced4da',
@@ -327,16 +582,16 @@
                 },
                 scales: {
                     yAxes: [{
-                        // display: false,
+                        display: true,
                         gridLines: {
                             display: true,
-                            lineWidth: '4px',
+                            //lineWidth: '4px',
                             color: 'rgba(0, 0, 0, .2)',
                             zeroLineColor: 'transparent'
                         },
                         ticks: $.extend({
                             beginAtZero: true,
-                            suggestedMax: 200
+                            suggestedMax: 60
                         }, ticksStyle)
                     }],
                     xAxes: [{

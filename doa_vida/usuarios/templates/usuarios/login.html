@@ -27,8 +27,16 @@
     <link rel="stylesheet" href="{% static 'doador/plugins/daterangepicker/daterangepicker.css' %}">
     <!-- summernote -->
     <link rel="stylesheet" href="{% static 'doador/plugins/summernote/summernote-bs4.min.css' %}">
+    <!-- mycss.css -->
+    <link rel="stylesheet" href="{% static 'doador/css/login.css' %}">
+    <!-- dark_mode.css -->
+    <link rel="stylesheet" href="{% static 'doador/css/dark_mode.css' %}">
+    <!-- responsive.css -->
+    <link rel="stylesheet" href="{% static 'doador/css/responsive.css' %}">
+    <!-- responsive.css -->
+    <link rel="stylesheet" href="{% static 'doador/css/base.css' %}">
 </head>
-<body class="sidebar-mini layout-fixed sidebar-collapse">
+<body class=" login layout-fixed sidebar-collapse" data-admin-utc-offset="-10800">
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v11.0&appId=1411738732400248&autoLogAppEvents=1" nonce="IkxAOZKI"></script>
 <div class="wrapper">
@@ -38,19 +46,76 @@
         <img class="animation__shake" src="{% static 'doador/img/AdminLTELogo.png' %}" alt="AdminLTELogo" height="60" width="60">
     </div>
 
-    {% block content %}
+    <div id="container">
+        <div id="header">
+            <div id="branding">
+                <h1 id="site-name">
+                    Login Doa Vida
+                </h1>
+            </div>
+        </div>
+        <div class="main" id="main">
+            <div class="content">
+                <div id="content" class="colM">
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags %}  <p class="errornote">{{ message }}</p> {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <div id="content-main">
+                        <form method="post" id="login-form">
+                            <div class="form-row">
+                                {% csrf_token %}
+                            </div>
+                            <div class="form-row">
+                                {{ form.as_p }}
+                            </div>
+                            <div class="submit-row">
+                                <input type="submit" value="Acessar">
+                            </div>
+                        </form>
+                    </div>
+                    <br class="clear">
+                </div>
+                <div id="footer"></div>
+            </div>
+        </div>
+    </div>
 
-    <h2>Log In</h2>
+<!--    <div class="content-wrapper">-->
+<!--        <section class="content">-->
+<!--            <div class="container-fluid">-->
+<!--                <div class="row mb-2">-->
+<!--                    <div class="col-sm-6">-->
+<!--                        <div class="card">-->
+<!--                            <div class="card-header">-->
+<!--                                <h3 class="card-title">-->
+<!--                                   Login-->
+<!--                                </h3>-->
+<!--                            </div>-->
+<!--                            <div class="card-body">-->
+<!--                                <div class="tab-content p-0">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-6">-->
+<!--                                            {% block content %}-->
+<!--&lt;!&ndash;                                                <form method="post" id="login-form">&ndash;&gt;-->
+<!--                                                    {% csrf_token %}-->
+<!--                                                    {{ form.as_p }}-->
+<!--                                                    <button class="btn btn-primary" type="submit">Login</button>-->
+<!--&lt;!&ndash;                                                </form>&ndash;&gt;-->
+<!--                                            {% endblock %}-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+<!--    </div>-->
 
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Log In</button>
-    </form>
-
-    {% endblock %}
-
-
+</div>
 <!-- jQuery -->
 <script src="{% static 'doador/plugins/jquery/jquery.min.js' %}"></script>
 <!-- jQuery UI 1.11.4 -->

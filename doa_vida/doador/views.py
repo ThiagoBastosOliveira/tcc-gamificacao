@@ -33,7 +33,18 @@ def index(request):
 def user(request):
 
     doador = Doador.objects.get(id=1)
-    context = {'doador': doador}
+    doadores = Doador.objects.all()
+    doadores = sorted(doadores, key=lambda t: t.calcular_pontuacao(), reverse=True)
+    badges = Badge.objects.all()
+    badges2 = []
+    for badge in badges:
+        if badge.doador_set.filter(id=1):
+            valor = True
+        else:
+            valor = False
+        badges2.append({'badge': badge, 'tem': valor})
+
+    context = {'doador': doador, 'badges': badges2, 'doadores': doadores}
 
     return render(request, 'doador/user.html', context)
 
