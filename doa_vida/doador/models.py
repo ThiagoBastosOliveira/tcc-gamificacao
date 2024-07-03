@@ -2,7 +2,6 @@ from django.db import models
 import datetime
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
-import numpy as np
 
 
 class Badge(models.Model):
@@ -34,20 +33,53 @@ class Badge(models.Model):
         return eval("self." + self.regra + "(doador)")
 
 
-class Doador(models.Model):
+class Usuario(models.Model):
+    SEXO_ESCOLHAS = (
+        ('M', 'Masculino'),
+        ('F', 'Feminino')
+    )
+    ESTADO_ESCOLHAS = (
+        ('AC', 'Acre'),
+        ('AL', 'Alagoas'),
+        ('AM', 'Amazonas'),
+        ('AP', 'Amapá'),
+        ('BA', 'Bahia'),
+        ('CE', 'Ceará'),
+        ('DF', 'Distrito Federal'),
+        ('ES', 'Espírito Santo'),
+        ('GO', 'Goiás'),
+        ('MA', 'Maranhão'),
+        ('MG', 'Minas Gerais'),
+        ('MS', 'Mato Grosso do Sul'),
+        ('MT', 'Mato Grosso'),
+        ('PA', 'Pará'),
+        ('PB', 'Paraíba'),
+        ('PE', 'Pernambuco'),
+        ('PI', 'Piauí'),
+        ('PR', 'Paraná'),
+        ('RJ', 'Rio de Janeiro'),
+        ('RN', 'Rio Grande do Norte'),
+        ('RO', 'Rondônia'),
+        ('RR', 'Roraima'),
+        ('RS', 'Rio Grande do Sul'),
+        ('SC', 'Santa Catarina'),
+        ('SE', 'Sergipe'),
+        ('SP', 'São Paulo'),
+        ('TO', 'Tocantins')
+    )
+
     id_hemovida = models.CharField("Identificador no sistema Hemovida", max_length=9)
     cpf = models.CharField("CPF", max_length=14)
     cns = models.CharField("Número do Cartão Nacional de Saúde", max_length=30, null=True, blank=True)
     num_ident = models.CharField("Número da Identidade", max_length=11)
     nome = models.CharField(max_length=100)
-    sexo = models.CharField(max_length=1, choices=[('M', 'Masculino'), ('F', 'Feminino')])
-    data_nascimento = models.DateField(default='1900-01-01')
+    sexo = models.CharField(max_length=1, choices=SEXO_ESCOLHAS)
+    data_nascimento = models.DateField(auto_now_add=True)
     nome_pai = models.CharField("Nome do Pai", max_length=100, null=True, blank=True)
     nome_mae = models.CharField("Nome da Mãe", max_length=100)
     grupo_abo = models.CharField("Grupo ABO", max_length=2, choices=[('A', 'A'), ('B', 'B'), ('O', 'O'), ('AB', 'AB')])
     fator_rh = models.CharField("Fator RH", max_length=1, choices=[('+', '+'), ('-', '-')])
     telefone = models.CharField(max_length=15)
-    badges = models.ManyToManyField(Badge)
 
     def __str__(self):
         return self.nome
@@ -103,7 +135,7 @@ class Doador(models.Model):
 
 
 class Doacao(models.Model):
-    doador = models.ForeignKey(Doador, on_delete=models.CASCADE)
+    doador = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     data_doacao = models.DateField(default=datetime.date.today())
     dias_inapto = models.IntegerField(default=60)  # TODO: Implementar cálculo de inaptidão
 

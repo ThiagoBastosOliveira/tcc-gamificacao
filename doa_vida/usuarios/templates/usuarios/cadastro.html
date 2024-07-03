@@ -52,7 +52,7 @@
         <div id="header">
             <div id="branding">
                 <h1 id="site-name">
-                    Login Doa Vida
+                    Cadastro
                 </h1>
             </div>
         </div>
@@ -73,10 +73,10 @@
                                 {{ form.as_p }}
                             </div>
                             <div class="submit-row">
-                                <input type="submit" value="Acessar">
-                                <a href="{% url 'register' %}" class="nav-link">
+                                <input type="submit" value="Cadastrar">
+                                <a href="{% url 'login' %}" class="nav-link">
                                     <p>
-                                        Cadastre-se
+                                        Voltar
                                     </p>
                                 </a>
                             </div>
@@ -88,39 +88,6 @@
             </div>
         </div>
     </div>
-
-<!--    <div class="content-wrapper">-->
-<!--        <section class="content">-->
-<!--            <div class="container-fluid">-->
-<!--                <div class="row mb-2">-->
-<!--                    <div class="col-sm-6">-->
-<!--                        <div class="card">-->
-<!--                            <div class="card-header">-->
-<!--                                <h3 class="card-title">-->
-<!--                                   Login-->
-<!--                                </h3>-->
-<!--                            </div>-->
-<!--                            <div class="card-body">-->
-<!--                                <div class="tab-content p-0">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-6">-->
-<!--                                            {% block content %}-->
-<!--&lt;!&ndash;                                                <form method="post" id="login-form">&ndash;&gt;-->
-<!--                                                    {% csrf_token %}-->
-<!--                                                    {{ form.as_p }}-->
-<!--                                                    <button class="btn btn-primary" type="submit">Login</button>-->
-<!--&lt;!&ndash;                                                </form>&ndash;&gt;-->
-<!--                                            {% endblock %}-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </section>-->
-<!--    </div>-->
 
 </div>
 <!-- jQuery -->

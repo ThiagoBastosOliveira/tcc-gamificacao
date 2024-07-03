@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Estoque, Doador, Badge, Hemocentro
+from .models import Estoque, Usuario, Badge, Hemocentro
 
 
 def index(request):
@@ -14,9 +14,9 @@ def index(request):
         'omais': Estoque.objects.filter(grupo_abo='O', fator_rh='+').order_by('-data')[0],
         'omenos': Estoque.objects.filter(grupo_abo='O', fator_rh='-').order_by('-data')[0],
     }
-    doador = Doador.objects.get(id=1)
+    doador = Usuario.objects.get(id=1)
     badges = Badge.objects.all()
-    doadores = Doador.objects.all()
+    doadores = Usuario.objects.all()
     doadores = sorted(doadores, key=lambda t: t.calcular_pontuacao(), reverse=True)
     badges2 = []
     for badge in badges:
@@ -32,8 +32,8 @@ def index(request):
 
 def user(request):
 
-    doador = Doador.objects.get(id=1)
-    doadores = Doador.objects.all()
+    doador = Usuario.objects.get(id=1)
+    doadores = Usuario.objects.all()
     doadores = sorted(doadores, key=lambda t: t.calcular_pontuacao(), reverse=True)
     badges = Badge.objects.all()
     badges2 = []
@@ -62,7 +62,7 @@ def indicadores(request):
         'omenos': Estoque.objects.filter(grupo_abo='O', fator_rh='-').order_by('-data')[0],
     }
     unidade = Hemocentro.objects.all()
-    doador = Doador.objects.get(id=1)
+    doador = Usuario.objects.get(id=1)
 
     context = {'estoque': estoque, 'unidade': unidade, 'doador': doador}
 

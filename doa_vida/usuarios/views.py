@@ -1,7 +1,9 @@
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from .forms import LoginForm
+
 
 def sign_in(request):
 
@@ -32,3 +34,22 @@ def sign_out(request):
     logout(request)
 
     return redirect('login')
+
+
+def register(request):
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        context = {'form': form}
+
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+
+        return render(request, 'usuarios/cadastro.html', context)
+
+    else:
+        form = UserCreationForm()
+        context = {'form': form}
+
+    return render(request, 'usuarios/cadastro.html', context)
