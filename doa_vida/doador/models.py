@@ -2,6 +2,7 @@ from django.db import models
 import datetime
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+import numpy
 
 
 class Badge(models.Model):
@@ -18,7 +19,7 @@ class Badge(models.Model):
         return self.nome
 
     def regra_mais_100_pontos(self, doador):
-        if doador.calcular_pontuacao() >= 100:
+        if doador.calcular_pontuacao() >= 100 < 500:
             return True
         else:
             return False
@@ -33,7 +34,7 @@ class Badge(models.Model):
         return eval("self." + self.regra + "(doador)")
 
 
-class Usuario(models.Model):
+class Doador(models.Model):
     SEXO_ESCOLHAS = (
         ('M', 'Masculino'),
         ('F', 'Feminino')
@@ -80,6 +81,8 @@ class Usuario(models.Model):
     grupo_abo = models.CharField("Grupo ABO", max_length=2, choices=[('A', 'A'), ('B', 'B'), ('O', 'O'), ('AB', 'AB')])
     fator_rh = models.CharField("Fator RH", max_length=1, choices=[('+', '+'), ('-', '-')])
     telefone = models.CharField(max_length=15)
+    estado = models.CharField("UF de Origem", max_length=20, choices=ESTADO_ESCOLHAS)
+    badges = models.ManyToManyField(Badge)
 
     def __str__(self):
         return self.nome
@@ -113,7 +116,7 @@ class Usuario(models.Model):
             doacoes = self.doacao_set.all()
             pontos = 0
             for doacao in doacoes:
-                pontos += round(abs(np.log10((datetime.date.today() - doacao.data_doacao).days / 365)) * 100)
+                pontos += round(abs(numpy.log10((datetime.date.today() - doacao.data_doacao).days / 365)) * 100)
         except Doacao.DoesNotExist:
             pontos = 0
 
@@ -125,7 +128,7 @@ class Usuario(models.Model):
             doacoes = self.doacao_set.all().order_by('data_doacao')
             pontuacao_acumulada = 0
             for doacao in doacoes:
-                pontuacao_acumulada += round(abs(np.log10((datetime.date.today() - doacao.data_doacao).days / 365)) * 100)
+                pontuacao_acumulada += round(abs(numpy.log10((datetime.date.today() - doacao.data_doacao).days / 365)) * 100)
                 historico['datas'].append(doacao.data_doacao.strftime('%Y-%m-%d'))  # TODO Implementar cálculo de pontos
                 historico['pontos'].append(pontuacao_acumulada)
         except Doacao.DoesNotExist:
@@ -135,7 +138,7 @@ class Usuario(models.Model):
 
 
 class Doacao(models.Model):
-    doador = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    doador = models.ForeignKey(Doador, on_delete=models.CASCADE)
     data_doacao = models.DateField(default=datetime.date.today())
     dias_inapto = models.IntegerField(default=60)  # TODO: Implementar cálculo de inaptidão
 
@@ -191,7 +194,6 @@ class Hemocentro(models.Model):
 
         return historico
 
-
 @receiver(post_save, sender=Doacao)
 @receiver(post_delete, sender=Doacao)
 def atualizar_badges(sender, instance, **kwargs):
@@ -200,5 +202,3 @@ def atualizar_badges(sender, instance, **kwargs):
             instance.doador.badges.add(badge)
         else:
             instance.doador.badges.remove(badge)
-
-#  Indicações, desafios

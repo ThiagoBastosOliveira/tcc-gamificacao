@@ -62,11 +62,6 @@
         <div class="main" id="main">
             <div class="content">
                 <div id="content" class="colM">
-                    {% if messages %}
-                        {% for message in messages %}
-                            {% if message.tags %}  <p class="errornote">{{ message }}</p> {% endif %}
-                        {% endfor %}
-                    {% endif %}
                     <div id="content-main">
                         <form class="form-with-validation" method="post" id="login-form">
                             <div class="form-row">
@@ -77,11 +72,10 @@
                             </div>
                             <div class="submit-row">
                                 <input class="botao-submit" type="submit" value="Cadastrar">
-                                <a href="{% url 'index' %}" class="nav-link botao"><p><i class="fas fa-angle-left"></i> Voltar</p></a>
                             </div>
+                            <br class="clear">
                         </form>
                     </div>
-                    <br class="clear">
                 </div>
             </div>
         </div>
@@ -122,143 +116,6 @@
 <script src="{% static 'doador/js/demo.js' %}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{% static 'doador/js/pages/dashboard.js' %}"></script>
-<script>
-    /* global Chart:false */
 
-    $(function () {
-        'use strict'
-
-        var ticksStyle = {
-            fontColor: '#495057',
-            fontStyle: 'bold'
-        }
-
-        var mode = 'index'
-        var intersect = true
-
-        var $salesChart = $('#sales-chart')
-        // eslint-disable-next-line no-unused-vars
-        var salesChart = new Chart($salesChart, {
-            type: 'bar',
-            data: {
-                labels: ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-                datasets: [
-                    {
-                        backgroundColor: '#007bff',
-                        borderColor: '#007bff',
-                        data: [1000, 2000, 3000, 2500, 2700, 2500, 3000]
-                    },
-                    {
-                        backgroundColor: '#ced4da',
-                        borderColor: '#ced4da',
-                        data: [700, 1700, 2700, 2000, 1800, 1500, 2000]
-                    }
-                ]
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                hover: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        // display: false,
-                        gridLines: {
-                            display: true,
-                            lineWidth: '4px',
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
-                        },
-                        ticks: $.extend({
-                            beginAtZero: true,
-
-                            // Include a dollar sign in the ticks
-                            callback: function (value) {
-                                if (value >= 1000) {
-                                    value /= 1000
-                                    value += 'k'
-                                }
-
-                                return '$' + value
-                            }
-                        }, ticksStyle)
-                    }],
-                    xAxes: [{
-                        display: true,
-                        gridLines: {
-                            display: false
-                        },
-                        ticks: ticksStyle
-                    }]
-                }
-            }
-        })
-
-        var $visitorsChart = $('#visitors-chart')
-        // eslint-disable-next-line no-unused-vars
-        var visitorsChart = new Chart($visitorsChart, {
-            data: {
-                labels: {{ doador.obter_historico_pontos.datas|safe }},
-                datasets: [
-                    {
-                        type: 'bar',
-                        data: {{ doador.obter_historico_pontos.pontos|safe }},
-                        backgroundColor: ' #007bff',
-                        color: '#007bff',
-                        fill: false
-                        // pointHoverBackgroundColor: '#ced4da',
-                        // pointHoverBorderColor    : '#ced4da'
-                    }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                hover: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        // display: false,
-                        gridLines: {
-                            display: true,
-                            lineWidth: '4px',
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
-                        },
-                        ticks: $.extend({
-                            beginAtZero: true,
-                            suggestedMax: 200
-                        }, ticksStyle)
-                    }],
-                    xAxes: [{
-                        display: true,
-                        gridLines: {
-                            display: false
-                        },
-                        ticks: ticksStyle
-                    }]
-                }
-            }
-        })
-    })
-
-    // lgtm [js/unused-local-variable]
-
-</script>
 </body>
 </html>

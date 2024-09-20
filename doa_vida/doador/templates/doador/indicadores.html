@@ -27,17 +27,22 @@
     <link rel="stylesheet" href="{% static 'doador/plugins/daterangepicker/daterangepicker.css' %}">
     <!-- summernote -->
     <link rel="stylesheet" href="{% static 'doador/plugins/summernote/summernote-bs4.min.css' %}">
+    <!-- Bootstrap 5 -->
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <!-- mycss.css -->
-    <link rel="stylesheet" href="{% static 'doador/css/mycss.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'doador/css/mycss.css' %}">
+
 </head>
-<body class="sidebar-mini layout-fixed sidebar-collapse">
+<body class="fundo sidebar-mini layout-fixed sidebar-collapse">
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v11.0&appId=1411738732400248&autoLogAppEvents=1" nonce="IkxAOZKI"></script>
 <div class="wrapper">
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="{% static 'doador/img/AdminLTELogo.png' %}" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__shake" src="{% static 'doador/img/doa_vida_icon.png' %}" alt="doa_vida_icon" height="60" width="60">
     </div>
 
     <!-- Navbar -->
@@ -74,7 +79,7 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div id="side_border" class="sidebar">
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
@@ -91,7 +96,7 @@
                     <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="{% url 'index' %}" class="nav-link">
+                        <a href="{% url 'home' %}" class="nav-link">
                             <i class="nav-icon fas fa-home mr-1"></i>
                             <p>
                                 Home
@@ -119,20 +124,19 @@
                         </a>
                     </li>
                 </ul>
-                <ul id="logout_button" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="{% url 'logout' %}" class="nav-link">
-                            <i class="nav-icon fas fa-door-open mr-1"></i>
-                            <p>
-                                Logout
-                            </p>
-                        </a>
-                    </li>
-                </ul>
             </nav>
             <!-- /.sidebar-menu -->
         </div>
-        <!-- /.sidebar -->
+        <ul id="logout_button" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <li class="nav-item">
+                <a href="{% url 'logout' %}" class="nav-link logout">
+                    <i class="nav-icon fas fa-door-open mr-1"></i>
+                    <p>
+                        Logout
+                    </p>
+                </a>
+            </li>
+        </ul>
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
@@ -142,11 +146,11 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0"><img src="../../static/doador/img/doa_vida_icon.png" width="40" height="40"> Doa Vida</h1>
+                        <h1 class="m-0"><img src="{% static 'doador/img/doa_vida_icon.png' %}" width="40" height="40"> Doa Vida</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
                             <li class="breadcrumb-item active">Indicadores</li>
                         </ol>
                     </div><!-- /.col -->
@@ -170,7 +174,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="card">
-                                            <div class="card-header border-0">
+                                            <div class="card-header border-0 titulo">
                                                 <div class="d-flex justify-content-between">
                                                     <h3 class="card-title">Doações Realizadas por Mês</h3>
                                                 </div>
@@ -184,21 +188,21 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="card">
-                                            <div class="card-header border-0">
+                                            <div class="card-header border-0 titulo">
                                                 <div class="d-flex justify-content-between">
                                                     <h3 class="card-title">Média de Doações por Sexo</h3>
                                                 </div>
                                             </div>
                                             <div class="card-body">
                                                 <div class="position-relative mb-4">
-                                                    <canvas id="media-sexo" height="100"></canvas>
+                                                    <canvas id="media-sexo" height="76"></canvas>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="card">
-                                            <div class="card-header border-0">
+                                            <div class="card-header border-0 titulo">
                                                 <div class="d-flex justify-content-between">
                                                     <h3 class="card-title">Doações por Unidade</h3>
                                                 </div>
@@ -212,7 +216,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="card">
-                                            <div class="card-header border-0">
+                                            <div class="card-header border-0 titulo">
                                                 <div class="d-flex justify-content-between">
                                                     <h3 class="card-title">Transfusões por Tipo/Fenótipo Sanguíneo</h3>
                                                 </div>
@@ -267,6 +271,7 @@
 <script src="{% static 'doador/js/demo.js' %}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{% static 'doador/js/pages/dashboard.js' %}"></script>
+
 <script>
     /* global Chart:false */
 
@@ -353,38 +358,28 @@
             type: 'bar',
             data: {
                 labels: [
-                    'jan/2023',
-                    'fev/2023',
-                    'mar/2023',
-                    'abr/2023',
-                    'mai/2023',
-                    'jun/2023',
-                    'jul/2023',
-                    'ago/2023',
-                    'set/2023',
-                    'out/2023',
-                    'nov/2023',
-                    'dez/2023'
+                    'jan/2024',
+                    'fev/2024',
+                    'mar/2024',
+                    'abr/2024',
+                    'mai/2024',
+                    'jun/2024',
+                    'jul/2024'
                 ],
                 datasets: [
                     {
                         type: 'bar',
                         data: [
                             128,
-                            100,
+                            111,
                             98,
                             102,
-                            88,
-                            94,
+                            83,
                             96,
-                            136,
-                            87,
-                            100,
-                            79,
-                            0
+                            63
                         ],
-                        backgroundColor: '#FB1338',
-                        color: '#007bff',
+                        backgroundColor: '#F6D3D3',
+                        color: '#F6D3D3',
                         fill: false
                         //pointHoverBackgroundColor: '#ced4da',
                         //pointHoverBorderColor    : '#ced4da'
@@ -409,8 +404,7 @@
                         gridLines: {
                             display: true,
                             //lineWidth: '4px',
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
+                            color: 'rgba(0, 0, 0, .2)'
                         },
                         ticks: $.extend({
                             beginAtZero: true,
@@ -448,10 +442,10 @@
                             'rgb(54, 162, 235)',
                             'rgb(255, 99, 132)'
                         ],
-                        color: '#007bff',
-                        fill: false
-                        //pointHoverBackgroundColor: '#ced4da',
-                        //pointHoverBorderColor    : '#ced4da'
+                        color: '#F6D3D3',
+                        fill: false,
+                        pointHoverBackgroundColor: '#1C1E20',
+                        pointHoverBorderColor: '#1C1E20',
                     }
                 ]
             }
@@ -487,11 +481,11 @@
                             136,
                             87
                         ],
-                        backgroundColor: '#FB1338',
-                        color: '#007bff',
+                        backgroundColor: '#F6D3D3',
+                        color: '#F6D3D3',
                         fill: false
                         //pointHoverBackgroundColor: '#ced4da',
-                        //pointHoverBorderColor    : '#ced4da'
+                        //pointHoverBorderColor: '#ced4da'
                     }]
             },
             options: {
@@ -513,8 +507,7 @@
                         gridLines: {
                             display: true,
                             //lineWidth: '4px',
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
+                            color: 'rgba(0, 0, 0, .2)'
                         },
                         ticks: $.extend({
                             beginAtZero: true,
@@ -560,8 +553,8 @@
                             38,
                             49
                         ],
-                        backgroundColor: '#FB1338',
-                        color: '#007bff',
+                        backgroundColor: '#F6D3D3',
+                        color: '#F6D3D3',
                         fill: false
                         // pointHoverBackgroundColor: '#ced4da',
                         // pointHoverBorderColor    : '#ced4da'
@@ -586,8 +579,7 @@
                         gridLines: {
                             display: true,
                             //lineWidth: '4px',
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
+                            color: 'rgba(0, 0, 0, .2)'
                         },
                         ticks: $.extend({
                             beginAtZero: true,

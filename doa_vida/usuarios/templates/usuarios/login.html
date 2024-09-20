@@ -37,22 +37,25 @@
     <link rel="stylesheet" href="{% static 'doador/css/base.css' %}">
     <!-- mycss.css -->
     <link rel="stylesheet" href="{% static 'doador/css/mycss.css' %}">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
-<body class=" login layout-fixed sidebar-collapse" data-admin-utc-offset="-10800">
+<body class="fundo login layout-fixed sidebar-collapse" data-admin-utc-offset="-10800">
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v11.0&appId=1411738732400248&autoLogAppEvents=1" nonce="IkxAOZKI"></script>
 <div class="wrapper">
 
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="{% static 'doador/img/AdminLTELogo.png' %}" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__shake" src="{% static 'doador/img/doa_vida_icon.png' %}" alt="doa_vida_icon" height="60" width="60">
     </div>
 
     <div id="container">
         <div id="header">
             <div id="branding">
                 <h1 id="site-name">
-                    Login Doa Vida
+                    Login
                 </h1>
             </div>
         </div>
@@ -65,7 +68,7 @@
                         {% endfor %}
                     {% endif %}
                     <div id="content-main">
-                        <form method="post" id="login-form">
+                        <form class="form-with-validation" method="post" id="login-form">
                             <div class="form-row">
                                 {% csrf_token %}
                             </div>
@@ -73,54 +76,19 @@
                                 {{ form.as_p }}
                             </div>
                             <div class="submit-row">
-                                <input type="submit" value="Acessar">
-                                <a href="{% url 'register' %}" class="nav-link">
-                                    <p>
-                                        Cadastre-se
-                                    </p>
-                                </a>
+                                <input class="botao-submit" type="submit" value="Acessar">
+                            </div>
+                            <div class="submit-row flex">
+                                <a href="{% url 'index' %}" class="col-md-6 nav-link botao"><p><i class="fas fa-angle-left"></i> Voltar</p></a>
+                                <a href="{% url 'register' %}" class="col-md-6 nav-link botao"><p><i class="fas fa-pen"></i> Cadastre-se</p></a>
                             </div>
                         </form>
                     </div>
                     <br class="clear">
                 </div>
-                <div id="footer"></div>
             </div>
         </div>
     </div>
-
-<!--    <div class="content-wrapper">-->
-<!--        <section class="content">-->
-<!--            <div class="container-fluid">-->
-<!--                <div class="row mb-2">-->
-<!--                    <div class="col-sm-6">-->
-<!--                        <div class="card">-->
-<!--                            <div class="card-header">-->
-<!--                                <h3 class="card-title">-->
-<!--                                   Login-->
-<!--                                </h3>-->
-<!--                            </div>-->
-<!--                            <div class="card-body">-->
-<!--                                <div class="tab-content p-0">-->
-<!--                                    <div class="row">-->
-<!--                                        <div class="col-6">-->
-<!--                                            {% block content %}-->
-<!--&lt;!&ndash;                                                <form method="post" id="login-form">&ndash;&gt;-->
-<!--                                                    {% csrf_token %}-->
-<!--                                                    {{ form.as_p }}-->
-<!--                                                    <button class="btn btn-primary" type="submit">Login</button>-->
-<!--&lt;!&ndash;                                                </form>&ndash;&gt;-->
-<!--                                            {% endblock %}-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </section>-->
-<!--    </div>-->
 
 </div>
 <!-- jQuery -->
@@ -157,143 +125,5 @@
 <script src="{% static 'doador/js/demo.js' %}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{% static 'doador/js/pages/dashboard.js' %}"></script>
-<script>
-    /* global Chart:false */
-
-    $(function () {
-        'use strict'
-
-        var ticksStyle = {
-            fontColor: '#495057',
-            fontStyle: 'bold'
-        }
-
-        var mode = 'index'
-        var intersect = true
-
-        var $salesChart = $('#sales-chart')
-        // eslint-disable-next-line no-unused-vars
-        var salesChart = new Chart($salesChart, {
-            type: 'bar',
-            data: {
-                labels: ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-                datasets: [
-                    {
-                        backgroundColor: '#007bff',
-                        borderColor: '#007bff',
-                        data: [1000, 2000, 3000, 2500, 2700, 2500, 3000]
-                    },
-                    {
-                        backgroundColor: '#ced4da',
-                        borderColor: '#ced4da',
-                        data: [700, 1700, 2700, 2000, 1800, 1500, 2000]
-                    }
-                ]
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                hover: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        // display: false,
-                        gridLines: {
-                            display: true,
-                            lineWidth: '4px',
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
-                        },
-                        ticks: $.extend({
-                            beginAtZero: true,
-
-                            // Include a dollar sign in the ticks
-                            callback: function (value) {
-                                if (value >= 1000) {
-                                    value /= 1000
-                                    value += 'k'
-                                }
-
-                                return '$' + value
-                            }
-                        }, ticksStyle)
-                    }],
-                    xAxes: [{
-                        display: true,
-                        gridLines: {
-                            display: false
-                        },
-                        ticks: ticksStyle
-                    }]
-                }
-            }
-        })
-
-        var $visitorsChart = $('#visitors-chart')
-        // eslint-disable-next-line no-unused-vars
-        var visitorsChart = new Chart($visitorsChart, {
-            data: {
-                labels: {{ doador.obter_historico_pontos.datas|safe }},
-                datasets: [
-                    {
-                        type: 'bar',
-                        data: {{ doador.obter_historico_pontos.pontos|safe }},
-                        backgroundColor: ' #007bff',
-                        color: '#007bff',
-                        fill: false
-                        // pointHoverBackgroundColor: '#ced4da',
-                        // pointHoverBorderColor    : '#ced4da'
-                    }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                tooltips: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                hover: {
-                    mode: mode,
-                    intersect: intersect
-                },
-                legend: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{
-                        // display: false,
-                        gridLines: {
-                            display: true,
-                            lineWidth: '4px',
-                            color: 'rgba(0, 0, 0, .2)',
-                            zeroLineColor: 'transparent'
-                        },
-                        ticks: $.extend({
-                            beginAtZero: true,
-                            suggestedMax: 200
-                        }, ticksStyle)
-                    }],
-                    xAxes: [{
-                        display: true,
-                        gridLines: {
-                            display: false
-                        },
-                        ticks: ticksStyle
-                    }]
-                }
-            }
-        })
-    })
-
-    // lgtm [js/unused-local-variable]
-
-</script>
 </body>
 </html>

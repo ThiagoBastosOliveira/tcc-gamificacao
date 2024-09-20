@@ -1,12 +1,163 @@
 #logout_button {
     position: absolute;
     display: inline-block;
-    bottom: 0;
-    left: 15px;
+    bottom: 5px;
+    left: 10px;
+}
+
+.card-title {
+    margin: 0 !important;
 }
 
 #sidebar_content {
   position: relative;
   min-height: 100%;
   padding-bottom: 40px;
+}
+
+#side_border {
+    border-bottom: 1px solid #4f5962;
+}
+
+.logout {
+    color: #CEC5C5 !important;
+    border: 1px solid #7A7676 !important;
+}
+
+.titulo {
+    background-color: #F8A9A9;
+    opacity: 0.8;
+}
+
+.fundo {
+    background-image: url('../img/fundo_doavida.png') !important;
+    background-repeat: no-repeat;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed;
+}
+
+.imagem {
+    text-align: center !important;
+}
+
+.card-index {
+    background-color: #F7F1F1;
+    border-radius: 10px !important;
+    opacity: 0.8;
+}
+
+.botao-submit {
+    background-color: #F57171 !important;
+}
+
+.botao-submit:hover {
+    background-color: #F8A9A9 !important;
+}
+
+.nav-link.nav-link-index {
+    background-color: #C31D1D !important;
+    color: #F1F1F1 !important;
+    border: 1px solid #423E3E !important;
+}
+
+.nav-link.active {
+    background-color: #C49191 !important;
+    border-bottom-color: #C49191 !important;
+}
+
+.nav-link.botao {
+    color: #C49191;
+}
+
+.nav-link.botao:hover {
+    color: #351D1D;
+}
+
+.nav-link.esquerda {
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.nav-link.direita {
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 8px !important;
+}
+
+.tab-pane {
+    background-color: #C49191 !important;
+    border: 1px solid #423E3E !important;
+    border-top-color: #C49191 !important;
+    border-bottom-left-radius: 8px !important;
+    border-bottom-right-radius: 8px !important;
+}
+
+.navbar-index {
+    background-color: #F6D3D3;
+    opacity: 0.8;
+}
+
+.navbar-login {
+    color: #332f2f !important;
+}
+
+.navbar-login:hover {
+    color: #0a0a0a !important;
+}
+
+.modal-index {
+    background-color: #e4d3d3;
+    border: 1px solid #000000;
+    border-top-color: #e4d3d3;
+}
+
+.modal-header {
+    background-color: #e8c3c3;
+    border: 1px solid #000000;
+}
+
+.form-with-validation div {
+    display: flex;
+    flex-flow: column;
+}
+
+.form-with-validation input {
+    padding: 0.25rem;
+}
+
+.form-submit {
+    padding: 0.5rem;
+    border-radius: 10px;
+    width: 125px;
+}
+
+.helptext ul {
+    list-style-type: none;
+}
+
+.errorlist {
+    color: #F00;
+    margin-left: 2rem;
+}
+
+ul.errorlist {
+    background: #F6D3D3 !important;
+}
+
+.login #header {
+    background-color: #F57171 !important;
+}
+
+.login #container {
+    border: 1px solid #000000 !important;
+    width: 35em !important;
+    background-color: #F6D3D3 !important;
+}
+
+.login #header h1 {
+    color: #FAFAD2 !important;
+}
+
+.flex {
+    flex-flow: row !important;
 }

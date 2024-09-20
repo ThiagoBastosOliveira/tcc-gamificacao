@@ -1,17 +1,15 @@
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from .forms import LoginForm
+from .forms import LoginForm, SignupForm
 
 
-def sign_in(request):
+def user_login(request):
 
     if request.method == 'GET':
         form = LoginForm()
-        context = {'form': form}
 
-        return render(request, 'usuarios/login.html', context)
+        return render(request, 'usuarios/login.html', {'form': form})
 
     elif request.method == 'POST':
         form = LoginForm(request.POST)
@@ -22,34 +20,31 @@ def sign_in(request):
             user = authenticate(request, username=username, password=password)
             if user:
                 login(request, user)
-                return redirect('index')
+                return redirect('home')
 
-        context = {'form': form}
         messages.error(request, f'Usuário e/ou senha incorretos.')
 
-        return render(request, 'usuarios/login.html', context)
+        return render(request, 'usuarios/login.html', {'form': form})
 
 
-def sign_out(request):
-    logout(request)
-
-    return redirect('login')
-
-
-def register(request):
+def user_signup(request):
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        context = {'form': form}
+        form = SignupForm(request.POST)
 
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('cadastro-user')
 
-        return render(request, 'usuarios/cadastro.html', context)
+        return render(request, 'usuarios/cadastro.html', {'form': form})
 
     else:
-        form = UserCreationForm()
-        context = {'form': form}
+        form = SignupForm()
 
-    return render(request, 'usuarios/cadastro.html', context)
+    return render(request, 'usuarios/cadastro.html', {'form': form})
+
+
+def sign_out(request):
+
+    logout(request)
+    return redirect('index')

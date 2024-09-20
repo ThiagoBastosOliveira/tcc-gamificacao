@@ -33,12 +33,14 @@ ALLOWED_HOSTS = ['3.142.221.54', 'localhost', '127.0.0.1', '44.219.32.237', 'doa
 INSTALLED_APPS = [
     'doador',
     'usuarios',
+    'clearcache',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap5'
 ]
 
 MIDDLEWARE = [
@@ -77,8 +79,12 @@ WSGI_APPLICATION = 'doa_vida.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'doa_vida',
+        'USER': 'root',
+        'PASSWORD': '@Tbifg2020',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
     }
 }
 
